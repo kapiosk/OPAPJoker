@@ -1,4 +1,4 @@
-#!/home/kapiosk/Test1/Venv python3
+#!/home/kapiosk/Development/OPAPJoker/Venv/bin python3
 # -*- coding: utf-8 -*-
 from urllib.request import urlopen
 
@@ -31,13 +31,15 @@ newItem = {
     'Date': pd.to_datetime(parts[2]),
 }
 
-drawData = pd.read_csv('joker.csv')
+filePath = '/home/kapiosk/Development/OPAPJoker/joker.csv'
+
+drawData = pd.read_csv(filePath)
 drawData['Date'] = pd.to_datetime(drawData['Date'])
 
 if newItem['Draw'] not in drawData['Draw'].values:
     drawData = drawData.append(newItem, ignore_index=True)
 
-drawData.to_csv('joker.csv', index=False)
+drawData.to_csv(filePath, index=False)
 
 
 def JoinNumbers(x):
