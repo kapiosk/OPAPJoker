@@ -1,4 +1,4 @@
-#!/home/kapiosk/Development/OPAPJoker/Venv/bin python3
+#!Venv/bin python3
 # -*- coding: utf-8 -*-
 from urllib.request import urlopen
 
@@ -31,7 +31,7 @@ newItem = {
     'Date': pd.to_datetime(parts[2]),
 }
 
-filePath = '/home/kapiosk/Development/OPAPJoker/joker.csv'
+filePath = 'joker.csv'
 
 drawData = pd.read_csv(filePath)
 drawData['Date'] = pd.to_datetime(drawData['Date'])
