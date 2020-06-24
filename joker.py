@@ -1,10 +1,18 @@
 #!Venv/bin python3
 # -*- coding: utf-8 -*-
+import sqlite3
 from urllib.request import urlopen
 
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
+
+with sqlite3.connect('test.db') as conn:
+    c = conn.cursor()
+    # Draw,Date,X1,X2,X3,X4,X5,Joker
+    c.execute('''CREATE TABLE IF NOT EXISTS some_table
+              (id INTEGER PRIMARY KEY AUTOINCREMENT, ...);''')
+    conn.commit()
 
 # This needs to change to greek version of
 # the site which also has the correct order
