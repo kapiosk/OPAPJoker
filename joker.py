@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 
+# https://docs.python.org/3/library/sqlite3.html
 with sqlite3.connect('test.db') as conn:
     c = conn.cursor()
     # Draw,Date,X1,X2,X3,X4,X5,Joker
