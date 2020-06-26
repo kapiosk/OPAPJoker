@@ -15,10 +15,6 @@ from bs4 import BeautifulSoup
 #               (id INTEGER PRIMARY KEY AUTOINCREMENT, ...);''')
 #     conn.commit()
 
-# This needs to change to greek version of
-# the site which also has the correct order
-# https://tzoker.opap.gr/#/
-
 html = urlopen('https://www.opap.org.cy/el/page/joker-results').read()
 html = html.decode('utf-8')
 
