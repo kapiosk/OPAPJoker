@@ -1,19 +1,12 @@
 #!Venv/bin python3
 # -*- coding: utf-8 -*-
+
 import sqlite3
 from urllib.request import urlopen
 
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
-
-# https://docs.python.org/3/library/sqlite3.html
-# with sqlite3.connect('test.db') as conn:
-#     c = conn.cursor()
-#     # Draw,Date,X1,X2,X3,X4,X5,Joker
-#     c.execute('''CREATE TABLE IF NOT EXISTS some_table
-#               (id INTEGER PRIMARY KEY AUTOINCREMENT, ...);''')
-#     conn.commit()
 
 html = urlopen('https://www.opap.org.cy/el/page/joker-results').read()
 html = html.decode('utf-8')
@@ -76,3 +69,11 @@ jokerData['Count'] = drawData['Joker'].value_counts().sort_index()
 jokerData = jokerData.drop(jokerData.index[0])
 jokerData = jokerData.sort_values(by='Count', ascending=False)
 print(jokerData.head())
+
+# https://docs.python.org/3/library/sqlite3.html
+with sqlite3.connect('test.db') as conn:
+    c = conn.cursor()
+    # Draw,Date,X1,X2,X3,X4,X5,Joker
+    # c.execute('''CREATE TABLE IF NOT EXISTS some_table
+    #           (id INTEGER PRIMARY KEY AUTOINCREMENT, ...);''')
+    conn.commit()

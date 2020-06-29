@@ -130,3 +130,6 @@ dmypy.json
 
 # Virtual Environment
 Venv/
+
+# Job
+run.sh
