@@ -26,8 +26,8 @@ newItem = {
     'X5': int(tableParts[4]),
     'Joker': int(tableParts[6]),
     'Draw': int(parts[0]),
-    'Date': pd.to_datetime(parts[2]),
-}
+    'Date': pd.to_datetime(parts[2], dayfirst=True),
+}  # format
 
 filePath = 'joker.csv'
 
