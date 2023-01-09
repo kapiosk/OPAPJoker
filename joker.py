@@ -1,7 +1,6 @@
 #!Venv/bin python3
 # -*- coding: utf-8 -*-
 
-import sqlite3
 from urllib.request import urlopen
 
 import numpy as np
@@ -11,7 +10,8 @@ from bs4 import BeautifulSoup
 # missing = 2432
 # while missing < 2543:
 #     missing += 1
-#     html = urlopen('https://www.opap.org.cy/el/joker?gameid={}'.format(missing)).read()
+#     html = urlopen('https://www.opap.org.cy/el/joker?gameid={}'
+#       .format(missing)).read()
 html = urlopen('https://www.opap.org.cy/el/joker').read()
 html = html.decode('utf-8')
 
@@ -19,7 +19,7 @@ soup = BeautifulSoup(html, features='html.parser')
 winnerNumbers = soup.find(id='winnerNumbers')
 draw = soup.find_all(class_='draw-number-warning')
 table = winnerNumbers.find_all('li')
-print(table)
+
 newItem = {
     'X1': int(table[0].get_text()),
     'X2': int(table[1].get_text()),
@@ -27,9 +27,9 @@ newItem = {
     'X4': int(table[3].get_text()),
     'X5': int(table[4].get_text()),
     'Joker': int(table[5].get_text()),
-    'Draw': draw[1].get_text(),
+    'Draw': int(draw[1].get_text()),
     'Date': pd.to_datetime(draw[0].get_text(), dayfirst=True),
-}  # format
+}
 
 filePath = 'joker.csv'
 
