@@ -8,25 +8,27 @@ import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 
-html = urlopen('https://www.opap.org.cy/el/page/joker-results').read()
+# missing = 2432
+# while missing < 2543:
+#     missing += 1
+#     html = urlopen('https://www.opap.org.cy/el/joker?gameid={}'.format(missing)).read()
+html = urlopen('https://www.opap.org.cy/el/joker').read()
 html = html.decode('utf-8')
 
 soup = BeautifulSoup(html, features='html.parser')
-column2 = soup.find(id='column2')
-competition_title = column2.find(id='competition_title')
-table = column2.findAll('table')[0].findAll('tr')[1]
-tableParts = list(filter(None, table.text.split('\n')))
-parts = competition_title.div.text.split('η')
-
+winnerNumbers = soup.find(id='winnerNumbers')
+draw = soup.find_all(class_='draw-number-warning')
+table = winnerNumbers.find_all('li')
+print(table)
 newItem = {
-    'X1': int(tableParts[0]),
-    'X2': int(tableParts[1]),
-    'X3': int(tableParts[2]),
-    'X4': int(tableParts[3]),
-    'X5': int(tableParts[4]),
-    'Joker': int(tableParts[6]),
-    'Draw': int(parts[0]),
-    'Date': pd.to_datetime(parts[2], dayfirst=True),
+    'X1': int(table[0].get_text()),
+    'X2': int(table[1].get_text()),
+    'X3': int(table[2].get_text()),
+    'X4': int(table[3].get_text()),
+    'X5': int(table[4].get_text()),
+    'Joker': int(table[5].get_text()),
+    'Draw': draw[1].get_text(),
+    'Date': pd.to_datetime(draw[0].get_text(), dayfirst=True),
 }  # format
 
 filePath = 'joker.csv'
@@ -46,8 +48,6 @@ def JoinNumbers(x):
 
 drawData['ResultString'] = drawData.apply(JoinNumbers, axis=1)
 drawData['ResultLength'] = drawData['ResultString'].map(lambda x: len(x))
-
-# drawData = drawData[drawData['Date'] >= pd.to_datetime('2015-01-01')]
 
 ಠ_ಠ = drawData['ResultLength'].mean()
 print(ಠ_ಠ)
@@ -69,11 +69,3 @@ jokerData['Count'] = drawData['Joker'].value_counts().sort_index()
 jokerData = jokerData.drop(jokerData.index[0])
 jokerData = jokerData.sort_values(by='Count', ascending=False)
 print(jokerData.head())
-
-# https://docs.python.org/3/library/sqlite3.html
-with sqlite3.connect('test.db') as conn:
-    c = conn.cursor()
-    # Draw,Date,X1,X2,X3,X4,X5,Joker
-    # c.execute('''CREATE TABLE IF NOT EXISTS some_table
-    #           (id INTEGER PRIMARY KEY AUTOINCREMENT, ...);''')
-    conn.commit()
